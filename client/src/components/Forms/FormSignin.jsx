@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import UserContext from "../Auth/UserContext";
+import { UserContext } from "../Auth/UserContext";
+import { withRouter } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
-import "../../styles/form.css";
 
 class FormSignin extends Component {
   static contextType = UserContext;
@@ -13,8 +12,9 @@ class FormSignin extends Component {
   };
 
   handleChange = (event) => {
-    const value = event.target.value;
     const key = event.target.name;
+    const value = event.target.value;
+
     this.setState({ [key]: value });
   };
 
@@ -24,77 +24,30 @@ class FormSignin extends Component {
     apiHandler
       .signin(this.state)
       .then((data) => {
-        this.context.setUser(data); // update the context
+        this.context.setUser(data);
+        this.props.history.push("/");
       })
       .catch((error) => {
         console.log(error);
+        // Display error message here, if you set the state
       });
   };
 
   render() {
-    if (this.context.isLoggedIn) {
-      // This logic is the same as in the <ProtectedRoute /> component
-      // Here this is handled within the component, if there are some views
-      // that are not meant to be rendered to a logged in user,
-      // you could make a generic component out of it, just like <ProtectedRoute />
-      // and instead of checking if the user is not logged in, check if the user is logged in
-      // and redirect him to whatever page you want, in the case below: the home page.
-
+    if (this.context.user) {
       return <Redirect to="/" />;
     }
 
     return (
-      <section className="form-section">
-        <header className="header">
-          <h1>
-            Welcome back
-            <span role="img" aria-label="hand">
-              👋
-            </span>
-          </h1>
-        </header>
-
-        <form autoComplete="off" className="form" onSubmit={this.handleSubmit}>
-          <h2>Login</h2>
-
-          <div className="form-group">
-            <label className="label" htmlFor="email">
-              Email
-            </label>
-            <input
-              onChange={this.handleChange}
-              value={this.state.email}
-              className="input"
-              id="email"
-              type="email"
-              name="email"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="label" htmlFor="password">
-              Password
-            </label>
-            <input
-              onChange={this.handleChange}
-              value={this.state.password}
-              className="input"
-              id="password"
-              type="password"
-              name="password"
-            />
-          </div>
-
-          <button className="btn-submit">Let's go!</button>
-        </form>
-
-        <div className="form-section link">
-          <p>Already have an account? </p>
-          <Link to="/signup">Register</Link>
-        </div>
-      </section>
+      <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" name="email" />
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" name="password" />
+        <button>Submit</button>
+      </form>
     );
   }
 }
 
-export default FormSignin;
+export default withRouter(FormSignin);

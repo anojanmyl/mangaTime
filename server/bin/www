@@ -80,5 +80,8 @@ function onError(error) {
  */
 
 function onListening() {
-  console.log(`DAMN LET'GO @ http://localhost:${process.env.PORT}`);
+  console.log(
+    "\x1b[34m%s\x1b[1m",
+    `DAMN LET'GO @ http://localhost:${process.env.PORT}`
+  );
 }

@@ -7,10 +7,10 @@
 
 # testing
 /coverage
-
+package-lock.json
 # production
 /build
-.env.production
+
 
 # misc
 .DS_Store

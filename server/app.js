@@ -78,10 +78,15 @@ if (process.env.NODE_ENV === "production") {
 // Middleware that handles errors, as soon as you pass some data to your next() function
 // eg: next("toto"). You will end up in this middleware function.
 
-app.use((error, req, res, next) => {
-  console.log(error);
-  error.status = error.status || 500;
-  res.json(error);
+app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV !== "production") {
+    console.error(err);
+  }
+  console.log("An error occured");
+  res.status(err.status || 500);
+  if (!res.headersSent) {
+    res.json(err);
+  }
 });
 
 /*  App is exported and then used in ./bin/www where the http server is initialized. */
