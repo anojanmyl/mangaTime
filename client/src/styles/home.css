@@ -1,0 +1,15 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: url(./manga-header.jpg) center;
+}
+
+h1.title {
+  position: relative;
+  color: white;
+  text-shadow: -5px -1px 0 #000, 1px -1px 0 #000, -5px 1px 0 #000,
+    -5px 1px 0 #000;
+  padding-top: 38%;
+  padding-bottom: 15%;
+}

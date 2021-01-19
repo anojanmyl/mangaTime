@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { UserContext } from "../Auth/UserContext";
 import { withRouter } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
+import { Link, Redirect } from "react-router-dom";
+import "../../styles/form.css";
 
 class FormSignin extends Component {
   static contextType = UserContext;
@@ -39,13 +41,55 @@ class FormSignin extends Component {
     }
 
     return (
-      <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" />
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
-        <button>Submit</button>
-      </form>
+      <section className="form-section">
+        <header className="header">
+          <h1>Welcome back</h1>
+        </header>
+
+        <form
+          autoComplete="off"
+          className="form"
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+        >
+          <h2>Login</h2>
+
+          <div className="form-group">
+            <label className="label" htmlFor="email">
+              Email
+            </label>
+            <input
+              onChange={this.handleChange}
+              value={this.state.email}
+              className="input"
+              type="email"
+              id="email"
+              name="email"
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="label" htmlFor="password">
+              Password
+            </label>
+            <input
+              onChange={this.handleChange}
+              value={this.state.password}
+              className="input"
+              id="password"
+              type="password"
+              name="password"
+            />
+          </div>
+
+          <button className="btn-submit">Submit</button>
+        </form>
+
+        <div className="form-section link">
+          <p>Already have an account? </p>
+          <Link to="/signup">Register</Link>
+        </div>
+      </section>
     );
   }
 }

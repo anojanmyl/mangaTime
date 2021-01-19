@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const Item = require("../models/Item");
+const Manga = require("../models/Manga");
 const upload = require("../config/cloudinary");
 const protectPrivateRoute = require("../middlewares/protectPrivateRoute");
 
@@ -35,9 +35,9 @@ router.get("/me/items", (req, res, next) => {
   const currentUserId = req.session.currentUser; // We retrieve the users id from the session.
 
   // And then get all the items matching the id_user field that matches the logged in users id.
-  Item.find({ id_user: currentUserId })
-    .then((itemDocuments) => {
-      res.status(200).json(itemDocuments);
+  Manga.find({ id_user: currentUserId })
+    .then((documents) => {
+      res.status(200).json(documents);
     })
     .catch(next);
 });
