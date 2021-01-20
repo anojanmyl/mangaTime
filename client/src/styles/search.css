@@ -9,7 +9,6 @@ body {
   width: 100%;
   position: fixed;
   display: flex;
-  height: 80vh;
 }
 
 .searchTerm {
@@ -51,4 +50,9 @@ svg.MuiSvgIcon-root {
   width: 1em;
   height: 1em;
   font-size: 2rem;
+}
+
+.header-search {
+  text-align: center;
+  margin-top: 6vh;
 }

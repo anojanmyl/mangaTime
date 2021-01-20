@@ -1,87 +1,79 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/home.css";
+import Modal from "./Modal";
+import { withRouter } from "react-router-dom";
+
 class Home extends Component {
   state = {
     infos: [],
-    // searchInfo: "",
+    showModal: false,
+    dataModal: {
+      info: "",
+    },
+  };
+  getModal = (info) => {
+    this.setState({ showModal: true, dataModal: info });
   };
 
-  // handleClick(event) {
-  //   console.log("My info", event);
-  // }
+  hideModal = () => {
+    this.setState({ showModal: false });
+  };
 
-  // // handleChange(event) {
-  // //   console.log("calling", event.target);
-  // //   this.setState({ searchInfo: event.target.value });
-  // // }
-
-  // handleSearch = (searchValue) => {
-  //   let searchKey = searchValue;
-  //   axios
-  //     .get(`https://api.jikan.moe/v3/search/manga?q=${searchKey}`)
-  //     .then((responseFromApi) => {
-  //       console.log("response from api ->", responseFromApi);
-  //       this.setState({
-  //         infos: responseFromApi.data,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
+  // handleSearch = (value) => {
+  //   this.setState({
+  //     infos: value,
+  //   });
   // };
 
-  // componentDidMount() {
-  //   axios
-  //     .get("https://api.jikan.moe/v3/top/manga/1/bypopularity")
-  //     .then((responseFromApi) => {
-  //       // console.log("response from api ->", responseFromApi);
-  //       this.setState({
-  //         infos: responseFromApi.data.news,
-  //       });
-  //     });
-  // }
-
-  handleSearch = (value) => {
-    this.setState({
-      infos: value,
-    });
-  };
-
   componentDidMount() {
-    axios
-      .get(`https://api.jikan.moe/v3/top/manga/1/bypopularity`)
-      .then((response) => {
-        this.setState({
-          infos: response.data,
-        });
-        console.log(response.data);
+    axios.get(`https://kitsu.io/api/edge/trending/manga`).then((response) => {
+      this.setState({
+        infos: response.data.data,
       });
+    });
   }
 
   render() {
+    console.log(this.state.infos);
     return (
-      <div className="home">
+      <div>
         <h1 className="title">Manga Time</h1>
-        {/* <Search className="searchbar" searchResult={this.handleSearch} /> */}
 
-        {/* {this.state.infos.map((info) => {
+        {this.state.infos.map((info) => {
           return (
-            <div key={info.id}>
-              <img src={info.image} alt={info.name} />
-              <Link
-                to={{
-                  pathname: `/article/${info.id}`,
-                  info,
-                }}
-              >
-                <h3 onClick={() => this.handleClick(info)}> {info.title}</h3>
-              </Link>
+            <div key={info.id} className="small">
+              <img
+                className="home-image"
+                src={info.attributes.posterImage.tiny}
+                alt={info.attributes.canonicalTitle}
+              />
+              <p>Rank: {info.attributes.popularityRank}</p>
+              <p>Rating: {info.attributes.averageRating}</p>
+
+              <h3 onClick={() => this.getModal(info)}>
+                {info.attributes.canonicalTitle}
+              </h3>
             </div>
           );
-        })} */}
+        })}
+        <Modal
+          show={this.state.showModal}
+          onHide={this.hideModal}
+          info={this.state.dataModal.info}
+        />
       </div>
     );
   }
 }
 
 export default Home;
+
+{
+  /* <Link
+                to={{
+                  pathname: `/details/${info.id}`,
+                }}
+              > */
+}

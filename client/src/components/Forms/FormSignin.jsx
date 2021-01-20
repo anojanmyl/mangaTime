@@ -42,7 +42,7 @@ class FormSignin extends Component {
 
     return (
       <section className="form-section">
-        <header className="header">
+        <header className="headersignin">
           <h1>Welcome back</h1>
         </header>
 

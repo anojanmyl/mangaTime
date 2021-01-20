@@ -27,7 +27,11 @@ $lightGray: #eff1f6; */
 
 .form-section .header {
   text-align: center;
+}
+
+.form-section .headersignin {
   margin-top: 17vh;
+  text-align: center;
 }
 
 .form {

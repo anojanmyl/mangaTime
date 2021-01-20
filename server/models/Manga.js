@@ -12,6 +12,6 @@ const mangaSchema = new Schema({
   image_url: String,
 });
 
-const Manga = mongoose.model("Item", mangaSchema);
+const Manga = mongoose.model("Manga", mangaSchema);
 
 module.exports = Manga;

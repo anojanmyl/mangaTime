@@ -39,7 +39,7 @@ const NavMain = (props) => {
         exact
         to="/"
         className="nav__link"
-        activeClassName="nav__link--active"
+        activeclassname="nav__link--active"
       >
         <HomeRoundedIcon className="nav__icon" />
         <span className="nav__text">Home</span>
@@ -50,7 +50,7 @@ const NavMain = (props) => {
             exact
             to="/profile"
             className="nav__link"
-            activeClassName="nav__link--active"
+            activeclassname="nav__link--active"
           >
             <AccountCircleRoundedIcon className="nav__icon" />
             <span className="nav__text">Profile</span>
@@ -58,7 +58,7 @@ const NavMain = (props) => {
           <p
             onClick={handleLogout}
             className="nav__link"
-            activeClassName="nav__link--active"
+            activeclassname="nav__link--active"
           >
             <ExitToAppRoundedIcon className="nav__icon" />
             <span className="nav__text">Logout</span>
@@ -70,7 +70,7 @@ const NavMain = (props) => {
           <NavLink
             to="/signin"
             className="nav__link"
-            activeClassName="nav__link--active"
+            activeclassname="nav__link--active"
           >
             <LockOpenRoundedIcon className="nav__icon" />
             <span className="nav__text">Signin</span>
@@ -78,7 +78,7 @@ const NavMain = (props) => {
           <NavLink
             to="/signup"
             className="nav__link"
-            activeClassName="nav__link--active"
+            activeclassname="nav__link--active"
           >
             <CreateRoundedIcon className="nav__icon" />
             <span className="nav__text">Signup</span>
