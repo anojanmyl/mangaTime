@@ -2,98 +2,116 @@ import React, { Component } from "react";
 import "../styles/search.css";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import axios from "axios";
+import "../styles/home.css";
+import SearchModal from "./SearchModal";
 
 class Search extends Component {
   state = {
     value: "",
     results: [],
+    infos: [],
+    showModal: false,
+    info: "",
+    isLoading: false,
   };
 
-  // getInfo = () => {
-  //   axios
-  //     .get(`https://api.jikan.moe/v3/search/manga?q=${this.state.query}`)
-  //     .then((response) => {
-  //       this.setState({
-  //         results: response.data,
-  //       });
-  //     });
-  // };
-
-  // handleInputChange = () => {
-  //   this.setState({ query: this.search.value }, () => {
-  //     if (this.state.query && this.state.query.length > 1) {
-  //       if (this.state.query.length % 2 === 0) {
-  //         this.getInfo();
-  //       }
-  //     } else if (!this.state.query) {
-  //       console.log(this.state.query);
-  //     }
-  //   });
-  // };
-
-  // render() {
-  //   return (
-  //     <form>
-  //       <input
-  //         placeholder="Search for..."
-  //         ref={input => this.search = input}
-  //         onChange={this.handleInputChange}
-  //       />
-  //       <p>{this.state.query}</p>
-  //     </form>
-  //   )
-  // }
+  handleChange = (event) => {
+    this.setState({ value: event.target.value, isLoading: true });
+  };
 
   handleSubmit = (event) => {
-    console.log(event.target.value);
+    event.preventDefault();
     axios
-      .get(`https://api.jikan.moe/v3/search/manga?q=${event.target.value}`)
+      .get(`https://kitsu.io/api/edge/manga?filter[text]=${this.state.value}`)
       .then((response) => {
-        this.props.results = response.data;
-        console.log(this.props.results);
-        console.log(response.data);
+        this.setState({
+          infos: response.data.data,
+          isLoading: false,
+        });
       });
   };
 
+  getModal = (info) => {
+    this.setState({ showModal: true, info });
+  };
+
+  hideModal = () => {
+    this.setState({ showModal: false });
+  };
+
   render() {
-    return (
-      <section>
-        <header className="header-search">
-          <h3>Search the mangas you need</h3>
-          <div className="wrap">
-            <form className="search">
-              <input
-                type="search"
-                className="searchTerm"
-                name="search"
-                onSubmit={this.handleSubmit}
-                placeholder="Search ..."
-              />
-              <button type="submit" className="searchButton">
-                <SearchRoundedIcon />
-              </button>
-            </form>
+    console.log("HERE", this.state.infos);
+
+    if (this.state.isLoading === true) {
+      return (
+        <section>
+          <header className="header-search">
+            <div className="wrap">
+              <form className="search" onSubmit={this.handleSubmit}>
+                <input
+                  type="search"
+                  className="searchTerm"
+                  name="search"
+                  onChange={this.handleChange}
+                  placeholder="Search your manga..."
+                />
+                <button type="submit" className="searchButton">
+                  <SearchRoundedIcon />
+                </button>
+              </form>
+            </div>
+          </header>
+          <div className="loading">
+            <img src="/images/loading.gif" alt="loading" />
           </div>
-        </header>
-      </section>
-    );
+        </section>
+      );
+    } else {
+      return (
+        <section>
+          <header className="header-search">
+            <div className="wrap">
+              <form className="search" onSubmit={this.handleSubmit}>
+                <input
+                  type="search"
+                  className="searchTerm"
+                  name="search"
+                  onChange={this.handleChange}
+                  placeholder="Search your manga..."
+                />
+                <button type="submit" className="searchButton">
+                  <SearchRoundedIcon />
+                </button>
+              </form>
+            </div>
+          </header>
+          <div>
+            {this.state.infos.map((info) => {
+              return (
+                <div key={info.id} className="small">
+                  <img
+                    onClick={() => this.getModal(info)}
+                    className="home-image"
+                    src={info.attributes.posterImage.tiny}
+                    alt={info.attributes.canonicalTitle}
+                  />
+                  <p>Rank: {info.attributes.popularityRank}</p>
+                  <p>Rating: {info.attributes.averageRating}</p>
+
+                  <h3>{info.attributes.canonicalTitle}</h3>
+                </div>
+              );
+            })}
+            <SearchModal
+              show={this.state.showModal}
+              onHide={this.hideModal}
+              info={this.state.info}
+            />
+          </div>
+        </section>
+      );
+    }
   }
-
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   axios
-  //     .get(`https://api.jikan.moe/v3/search/manga`, {
-  //       params: { q: { searchValue } },
-  //     })
-  //     .then((response) => {
-  //       this.setState({
-  //         searchResult: response.data,
-  //       });
-  //     });
-  // };
-
-  //
 }
 
 export default Search;

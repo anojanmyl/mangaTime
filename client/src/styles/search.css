@@ -39,9 +39,10 @@ body {
 }
 
 .wrap {
+  z-index: 2;
   width: 80%;
-  position: absolute;
-  top: 10%;
+  position: fixed;
+  top: 2%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -55,4 +56,9 @@ svg.MuiSvgIcon-root {
 .header-search {
   text-align: center;
   margin-top: 6vh;
+}
+
+.loading {
+  position: fixed;
+  top: 25vh;
 }

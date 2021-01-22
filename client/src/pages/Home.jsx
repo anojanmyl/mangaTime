@@ -1,31 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "../styles/home.css";
 import Modal from "./Modal";
-import { withRouter } from "react-router-dom";
 
 class Home extends Component {
   state = {
     infos: [],
     showModal: false,
-    dataModal: {
-      info: "",
-    },
+    info: "",
   };
   getModal = (info) => {
-    this.setState({ showModal: true, dataModal: info });
+    this.setState({ showModal: true, info });
   };
 
   hideModal = () => {
     this.setState({ showModal: false });
   };
-
-  // handleSearch = (value) => {
-  //   this.setState({
-  //     infos: value,
-  //   });
-  // };
 
   componentDidMount() {
     axios.get(`https://kitsu.io/api/edge/trending/manga`).then((response) => {
@@ -45,6 +35,7 @@ class Home extends Component {
           return (
             <div key={info.id} className="small">
               <img
+                onClick={() => this.getModal(info)}
                 className="home-image"
                 src={info.attributes.posterImage.tiny}
                 alt={info.attributes.canonicalTitle}
@@ -52,16 +43,14 @@ class Home extends Component {
               <p>Rank: {info.attributes.popularityRank}</p>
               <p>Rating: {info.attributes.averageRating}</p>
 
-              <h3 onClick={() => this.getModal(info)}>
-                {info.attributes.canonicalTitle}
-              </h3>
+              <h3>{info.attributes.canonicalTitle}</h3>
             </div>
           );
         })}
         <Modal
           show={this.state.showModal}
           onHide={this.hideModal}
-          info={this.state.dataModal.info}
+          info={this.state.info}
         />
       </div>
     );
@@ -69,11 +58,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-{
-  /* <Link
-                to={{
-                  pathname: `/details/${info.id}`,
-                }}
-              > */
-}

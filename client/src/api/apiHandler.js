@@ -44,9 +44,44 @@ export default {
       .catch(errorHandler);
   },
 
-  getItems() {
+  updateUserMangas(mangas) {
     return service
-      .get("/api/items")
+      .patch("/api/users/me/manga", { mangas: mangas })
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  transferManga(total) {
+    return service
+      .patch(`/api/users/manga`, total)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  getManga() {
+    return service
+      .get(`/api/users/me/mangas`)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  deleteManga(id) {
+    return service
+      .patch(`/api/users/dashboard`, { mangaId: id })
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  getUser(id) {
+    return service
+      .get(`/api/users/dashboard`, { mangaId: id })
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  getUserInfo() {
+    return service
+      .get("/api/user/me")
       .then((res) => res.data)
       .catch(errorHandler);
   },

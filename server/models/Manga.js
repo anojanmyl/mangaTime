@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const mangaSchema = new Schema({
   rank: Number,
   title: String,
-  url: String,
-  chapters: Number,
   start_date: String,
-  end_date: String,
   score: Number,
   image_url: String,
+  description: String,
+  userId: [String],
+  chapters: String,
 });
 
 const Manga = mongoose.model("Manga", mangaSchema);

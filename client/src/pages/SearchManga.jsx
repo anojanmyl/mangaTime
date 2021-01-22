@@ -2,17 +2,20 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-class OneManga extends Component {
+class SearchManga extends Component {
   state = {
     infos: [],
+    value: "",
   };
 
   componentDidMount() {
-    axios.get(`https://kitsu.io/api/edge/trending/manga`).then((response) => {
-      this.setState({
-        infos: response.data.data,
+    axios
+      .get(`https://kitsu.io/api/edge/manga?filter[text]=${this.state.value}`)
+      .then((response) => {
+        this.setState({
+          infos: response.data.data,
+        });
       });
-    });
   }
 
   render() {
@@ -45,4 +48,4 @@ class OneManga extends Component {
   }
 }
 
-export default withRouter(OneManga);
+export default withRouter(SearchManga);
