@@ -14,8 +14,8 @@
 }
 
 .smaller {
-  display: flex;
-  position: absolute;
+  display: inline-block;
+  /* position: absolute; */
   flex-direction: column;
   width: 40%;
   background: rgb(203 195 195);
@@ -24,8 +24,4 @@
   padding: 0vw;
   text-align: center;
   border-radius: 10%;
-}
-
-btn-profile {
-  width: 2vw;
 }
