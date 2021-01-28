@@ -8,7 +8,6 @@ const cors = require("cors");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")(session);
-const indexRouter = require("./routes/index");
 const _DEV_MODE = false;
 const app = express();
 
@@ -60,6 +59,15 @@ if (_DEV_MODE) {
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
+
+// ...routes
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(__dirname + "/public/index.html");
+  });
+}
 
 // Middleware that handles a ressource that wasn't found.
 app.use((req, res, next) => {
