@@ -60,15 +60,6 @@ if (_DEV_MODE) {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 
-// ...routes
-
-if (process.env.NODE_ENV === "production") {
-  app.use("*", (req, res, next) => {
-    // If no routes match, send them the React HTML.
-    res.sendFile(__dirname + "/public/index.html");
-  });
-}
-
 // Middleware that handles a ressource that wasn't found.
 app.use((req, res, next) => {
   res.status(404).json({
