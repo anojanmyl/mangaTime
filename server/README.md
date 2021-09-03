@@ -1,3 +1,1 @@
 # mangaTime-server
-
-Welcome !
